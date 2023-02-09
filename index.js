@@ -4,15 +4,13 @@ import {dbConnection} from './database/config.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-// DB connection
-dbConnection();
-
 // Create express application
 const app = express();
 
-// Parsing application/json
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Parsing app to x-www-form-urlencoded
+app.use(express.urlencoded({extended: true}));
+
+// DB connection
+dbConnection();
 
 // Enable static files
 app.use(express.static('public'));
