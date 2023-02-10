@@ -1,25 +1,39 @@
-import { check, validationResult } from 'express-validator';
 import { validateRegister } from '../validations/userValidations.js';
 import User from '../models/user.js';
 
 const loginForm = (req, res) => {
     res.render('auth/login', {
-        title: 'My app'
+        title: 'Login'
     });
 }
 
 // Create user
-const createAccount = async (req, res) => {
-    
+const createAccount = async (req, res) => {  
     const data = req.body;
+    const { name, email } = data;
 
     // Validations
     let errors = await validateRegister(req);
 
+    // If find errors return errors array
     if(!errors.isEmpty()) {
         return res.render('auth/register', {
-            title: 'My app',
+            title: 'Register',
             errors: errors.array()
+        });
+    }
+
+    // Verify if the email exists
+    const existsUser = await User.findOne({email: data.email});
+    
+    if(existsUser) {
+        return res.render('auth/register', {
+            title: 'Register',
+            errors: [{msg: 'This email alredy exists'}],
+            user: {
+                name,
+                email
+            }
         });
     }
 
@@ -28,11 +42,10 @@ const createAccount = async (req, res) => {
         const user = new User(data);
         await user.save();
 
-        res.json({msg: 'User has been created', user});
+        res.redirect('/auth/login');
     } catch (error) {
         res.status(500).json(error);
     }
-
 }
 
 export {
