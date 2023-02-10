@@ -20,6 +20,10 @@ const UserSchema = new Schema ({
         minlength: 8,
         required: true,
         allowBlank: false
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 });
 
