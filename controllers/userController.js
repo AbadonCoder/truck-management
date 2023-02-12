@@ -50,6 +50,12 @@ const login = async (req, res) => {
     }).redirect('/manage/manage-outputs');
 }
 
+// Logout
+const logout = (req, res) => {
+    // Clean the cookie and redirect
+    res.clearCookie('_token').status(200).redirect('/auth/login');
+}
+
 // Create user
 const createAccount = async (req, res) => {  
     const data = req.body;
@@ -96,5 +102,6 @@ const createAccount = async (req, res) => {
 export {
     loginForm,
     login,
+    logout,
     createAccount
 }
