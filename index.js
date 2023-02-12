@@ -1,13 +1,25 @@
 import express from 'express';
+
 import userRoutes from './routes/userRoutes.js';
+import manageRoutes from './routes/manageRoutes.js';
+
 import {dbConnection} from './database/config.js';
+import cookieParser from 'cookie-parser';
+import csrf from '@dr.pogodin/csurf';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 // Create express application
 const app = express();
 
+// Enable form reading
 app.use(express.urlencoded({extended: true}));
+
+// Enable cookies
+app.use(cookieParser());
+
+// Enable csrf protection
+app.use(csrf({cookie: true}));
 
 // DB connection
 dbConnection();
@@ -23,11 +35,12 @@ app.set('views', './views');
 
 // Routing
 app.use('/auth', userRoutes);
+app.use('/manage', manageRoutes);
 
 // server port
 const port = process.env.PORT;
 
-// Listen port 8080
+// Listen port
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });

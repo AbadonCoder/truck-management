@@ -34,4 +34,10 @@ UserSchema.pre('save', async function() {
 });
 
 const User = model('user', UserSchema);
+
+User.prototype.validatePassword = function(password) {
+
+    return brcypt.compareSync(password, this.password);
+}
+
 export default User;

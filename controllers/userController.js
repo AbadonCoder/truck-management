@@ -1,10 +1,53 @@
-import { validateRegister } from '../validations/userValidations.js';
+import { validateRegister, validateLogin } from '../validations/userValidations.js';
 import User from '../models/user.js';
+import { generateJWT } from '../helpers/tokens.js';
 
 const loginForm = (req, res) => {
     res.render('auth/login', {
-        title: 'Login'
+        title: 'Login',
+        csrfToken: req.csrfToken()
     });
+}
+
+// Login
+const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    let errors = await validateLogin(req);
+
+    if(!errors.isEmpty()) {
+        return res.render('auth/login', {
+            title: 'Login',
+            errors: errors.array(),
+            csrfToken: req.csrfToken()
+        });
+    }
+
+    // Verify if user exists
+    const user = await User.findOne({email});
+    if(!user) {
+        return res.render('auth/login', {
+            title: 'Login',
+            errors: [{msg:'This email doesn\'t exists'}],
+            csrfToken: req.csrfToken()
+        });
+    }
+
+    // Check if the passwords match
+    if(!user.validatePassword(password)) {
+        return res.render('auth/login', {
+            title: 'Login',
+            errors: [{msg:'Password Incorrect'}],
+            csrfToken: req.csrfToken()
+        });
+    }
+
+    // Authenticate user
+    const token = generateJWT({id: user.id, name: user.name, email});
+    
+    return res.cookie('_token', token, {
+        httpOnly: true
+    }).redirect('/manage/manage-outputs');
 }
 
 // Create user
@@ -19,7 +62,8 @@ const createAccount = async (req, res) => {
     if(!errors.isEmpty()) {
         return res.render('auth/register', {
             title: 'Register',
-            errors: errors.array()
+            errors: errors.array(),
+            csrfToken: req.csrfToken()
         });
     }
 
@@ -33,7 +77,8 @@ const createAccount = async (req, res) => {
             user: {
                 name,
                 email
-            }
+            },
+            csrfToken: req.csrfToken()
         });
     }
 
@@ -50,5 +95,6 @@ const createAccount = async (req, res) => {
 
 export {
     loginForm,
+    login,
     createAccount
 }

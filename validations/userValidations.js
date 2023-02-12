@@ -1,8 +1,6 @@
 import { check, validationResult } from 'express-validator';
 
 const validateRegister = async (req) => {
-    
-    // const {name, email, password, repeat_password} = data;
 
     await check('name').trim().notEmpty().escape().withMessage('Name is required').run(req);
     await check('email').trim().isEmail().normalizeEmail().withMessage('Invalid email').run(req);
@@ -14,6 +12,17 @@ const validateRegister = async (req) => {
     return errors;
 }
 
+const validateLogin = async (req) => {
+
+    await check('email').isEmail().withMessage('Email is required').run(req);
+    await check('password').notEmpty().withMessage('Password is required').run(req);
+
+    let errors = validationResult(req);
+
+    return errors;
+}
+
 export {
-    validateRegister
+    validateRegister,
+    validateLogin
 }
