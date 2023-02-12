@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 // Method that establish a connection with MongoDB
 const dbConnection = async() => {

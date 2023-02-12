@@ -21,9 +21,11 @@ const UserSchema = new Schema ({
         required: true,
         allowBlank: false
     },
+    token: String,
     status: {
         type: Boolean,
-        default: true
+        required: true,
+        default: false
     }
 });
 
@@ -35,9 +37,8 @@ UserSchema.pre('save', async function() {
 
 const User = model('user', UserSchema);
 
-User.prototype.validatePassword = function(password) {
-
-    return brcypt.compareSync(password, this.password);
+User.prototype.validatePassword = async function(password) {
+    return await brcypt.compareSync(password, this.password);
 }
 
 export default User;

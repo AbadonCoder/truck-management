@@ -2,8 +2,9 @@ import express from 'express';
 import {
     loginForm,
     login,
-    logout,
-    createAccount
+    createAccount,
+    confirm,
+    logout
 } from '../controllers/userController.js';
 
 const router = express.Router();
@@ -11,8 +12,10 @@ const router = express.Router();
 router.get('/login', loginForm);
 router.post('/login', login);
 
-router.post('/logout', logout);
-
 router.post('/register', createAccount);
+
+router.get('/confirm/:token', confirm);
+
+router.post('/logout', logout);
 
 export default router;

@@ -1,7 +1,9 @@
 import { validateRegister, validateLogin } from '../validations/userValidations.js';
 import User from '../models/user.js';
-import { generateJWT } from '../helpers/tokens.js';
+import { generateJWT, generateID } from '../helpers/tokens.js';
+import { registerEmail } from '../helpers/email.js';
 
+// Login Form
 const loginForm = (req, res) => {
     res.render('auth/login', {
         title: 'Login',
@@ -24,7 +26,7 @@ const login = async (req, res) => {
     }
 
     // Verify if user exists
-    const user = await User.findOne({email});
+    const user = await User.findOne({email, status:true});
     if(!user) {
         return res.render('auth/login', {
             title: 'Login',
@@ -59,7 +61,7 @@ const logout = (req, res) => {
 // Create user
 const createAccount = async (req, res) => {  
     const data = req.body;
-    const { name, email } = data;
+    const { name, email, password } = data;
 
     // Validations
     let errors = await validateRegister(req);
@@ -89,19 +91,67 @@ const createAccount = async (req, res) => {
     }
 
     // Create new user
+    const user = new User({
+        name,
+        email,
+        password,
+        token: generateID()
+    });
+
     try {
-        const user = new User(data);
         await user.save();
 
-        res.redirect('/auth/login');
+        // Confirm account
+        registerEmail({
+            name: user.name,
+            email: user.email,
+            token: user.token
+        });
+
     } catch (error) {
         res.status(500).json(error);
+    }
+
+    res.render('templates/message', {
+        title: 'Account created',
+        msg: 'We have been sended a confirmation email'
+    });
+}
+
+// validate account
+const confirm = async (req, res) => {
+    const {token} = req.params;
+
+    // Verify if token is valid
+    const user = await User.findOne({token});
+
+    if(!user) {
+        return res.render('auth/confirm-account', {
+            title: 'Error',
+            msg: 'This token is invalid',
+            error: true
+        });
+    }
+
+    try {
+        // Confirm account
+        user.token = null;
+        user.status = true;
+        await user.save();
+    
+        return res.render('auth/confirm-account', {
+            title: 'Account Confirmed',
+            msg: 'Your account has been confirmed'
+        });
+    } catch (error) {
+        console.error('Something goes wrong');
     }
 }
 
 export {
     loginForm,
     login,
-    logout,
-    createAccount
+    createAccount,
+    confirm,
+    logout
 }
