@@ -1,3 +1,14 @@
+# Database connection
 MONGO_CONN=
+
+# Server config
 PORT=
+
+# Token keys
 JWT_SECRET=
+
+# Mailjet keys
+MAIL_KEY=
+MAIL_SKEY=
+
+BACKEND_URL=

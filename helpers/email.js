@@ -7,37 +7,30 @@ const registerEmail = (data) => {
     const request = mailjet
         .post('send', {version: 'v3.1'})
         .request({
-            Messages: [
+            "Messages": [
                 {
-                    From: {
-                        Email: 'adriangpe5666@gmail.com',
-                        Name: 'Truck Management'
+                    "From": {
+                        "Email": 'adriangpe5666@gmail.com',
+                        "Name": 'Truck Management'
                     },
-                    To: [
+                    "To": [
                         {
-                            Email: `${email}`,
-                            Name: `${name}`
+                            "Email": `${email}`,
+                            "Name": `${name}`
                         }
                     ],
-                    Subject: 'Confirm your account at truckManagement.com',
-                    TextPart: 'Thanks for bealive in us, please confirm your account',
-                    HTMLPart: `
-                        <p>Hello ${name}, confirm your account at truckManagement.com</p>
-                        <p>Your account is alredy, only click the next link 
-                            <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 8000}/auth/confirm/${token}">Confirm Account</a>
-                        </p>
-
-                        <p>If you don't create this account just ignore this email.</p>
-                    `
+                    "Variables": {
+                        "name": `${name}`,
+                        "url": `${process.env.BACKEND_URL}:${process.env.PORT ?? 8000}/auth/confirm/${token}`
+                    },
+                    "TemplateID": 4578601,
+                    "TemplateLanguage": true
                 }
             ]
         });
 
         request
-            .then(response => {
-                console.log(response.body);
-                console.log('Email sended');
-            })
+            .then(response => console.log(response.body))
             .catch(err => console.log(err.statusCode));
 }
 

@@ -108,14 +108,14 @@ const createAccount = async (req, res) => {
             token: user.token
         });
 
+        res.render('templates/message', {
+            title: 'Account created',
+            msg: 'We have been sended a confirmation email'
+        });
     } catch (error) {
         res.status(500).json(error);
     }
 
-    res.render('templates/message', {
-        title: 'Account created',
-        msg: 'We have been sended a confirmation email'
-    });
 }
 
 // validate account
