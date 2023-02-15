@@ -7,22 +7,37 @@ const validateRegister = async (req) => {
     await check('password').isLength({ min: 8 }).withMessage('Password needs a minimum of 8 characters').run(req);
     await check('repeat_password').equals(req.body.password).withMessage('Password doesn\'t match ').run(req);
 
-    let errors = validationResult(req);
-
-    return errors;
+    return validationResult(req);
 }
 
+
+// Valiate if the login data is correct
 const validateLogin = async (req) => {
 
     await check('email').isEmail().withMessage('Email is required').run(req);
     await check('password').notEmpty().withMessage('Password is required').run(req);
 
-    let errors = validationResult(req);
+    return validationResult(req);
+}
 
-    return errors;
+// Validate if the email is an email
+const validateEmail = async (req) => {
+    
+    await check('email').isEmail().withMessage('Email is required').run(req);
+    return validationResult(req);
+}
+
+// Validate both passwords
+const validatePassword = async (req) => {
+    
+    await check('password').isLength({ min: 8 }).withMessage('Password needs a minimum of 8 characters').run(req);
+    await check('repeat_password').equals(req.body.password).withMessage('Password doesn\'t match ').run(req);
+    return validationResult(req);
 }
 
 export {
     validateRegister,
-    validateLogin
+    validateLogin,
+    validateEmail,
+    validatePassword,
 }

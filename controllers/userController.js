@@ -1,7 +1,7 @@
-import { validateRegister, validateLogin } from '../validations/userValidations.js';
+import { validateRegister, validateLogin, validateEmail, validatePassword } from '../validations/userValidations.js';
 import User from '../models/user.js';
 import { generateJWT, generateID } from '../helpers/tokens.js';
-import { registerEmail } from '../helpers/email.js';
+import { registerEmail, resetPasswordEmail } from '../helpers/email.js';
 
 // Login Form
 const loginForm = (req, res) => {
@@ -110,7 +110,7 @@ const createAccount = async (req, res) => {
 
         res.render('templates/message', {
             title: 'Account created',
-            msg: 'We have been sended a confirmation email'
+            msg: 'We have sent a confirmation email'
         });
     } catch (error) {
         res.status(500).json(error);
@@ -144,8 +144,117 @@ const confirm = async (req, res) => {
             msg: 'Your account has been confirmed'
         });
     } catch (error) {
-        console.error('Something goes wrong');
+        res.status(500).json(error);
     }
+}
+
+// Forgot my password form
+const forgotPasswordForm = (req, res) => {
+    res.render('auth/forgot-password', {
+        title: 'Forgot my password',
+        csrfToken: req.csrfToken()
+    });
+}
+
+// Reset password
+const resetPassword = async (req, res) => {
+
+    const { email } = req.body;
+
+    let errors = await validateEmail(req);
+
+    if(!errors.isEmpty()) {
+        return res.render('auth/forgot-password', {
+            title: 'Forgot my password',
+            csrfToken: req.csrfToken(),
+            errors: errors.array()
+        });
+    }
+
+    const user = await User.findOne({email, status: true});
+
+    // If this email is not registered send an error message
+    if(!user) {
+        return res.render('auth/forgot-password', {
+            title: 'Forgot my password',
+            csrfToken: req.csrfToken(),
+            errors: [{msg: 'This email doesn\t exists'}]
+        });
+    }
+
+    try {
+        
+        user.token = generateID();
+        await user.save();
+
+        resetPasswordEmail({
+            name: user.name,
+            email: user.email,
+            token: user.token
+        });
+
+        res.render('templates/message', {
+            title: 'Forgot my password',
+            msg: 'We have sent a confirmation email'
+        });
+
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
+// Verify token
+const compareToken = async (req, res) => {
+    
+    const {token} = req.params;
+
+    const user = await User.findOne({token});
+
+    if(!user) {
+        return res.render('auth/confirm-account', {
+            title: 'Error',
+            msg: 'This token is invalid',
+            error: true
+        });
+    }
+
+    res.render('auth/change-password', {
+        title: 'Change Password',
+        csrfToken: req.csrfToken()
+    });
+}
+
+// Chenage password
+const changePassword = async (req, res) => {
+    
+    const {token} = req.params;
+    const {password} = req.body;
+
+    let errors = await validatePassword(req);
+
+    if(!errors.isEmpty()) {
+        return res.render('auth/change-password', {
+            title: 'Forgot my password',
+            csrfToken: req.csrfToken(),
+            errors: errors.array()
+        });
+    }
+
+    try {
+        const user = await User.findOne({token});
+        user.password = password;
+        user.token = null;
+        await user.save();
+
+        res.render('templates/message', {
+            title: 'Change Password',
+            msg: 'Your password has been successfully changed'
+        });
+
+    } catch (error) {
+        res.status(500).json(error);
+    }
+
 }
 
 export {
@@ -153,5 +262,9 @@ export {
     login,
     createAccount,
     confirm,
-    logout
+    logout,
+    forgotPasswordForm,
+    resetPassword,
+    compareToken,
+    changePassword
 }
