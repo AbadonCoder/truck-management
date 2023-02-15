@@ -6,21 +6,25 @@ block content
 
 
 
-                form(class="flex flex-col items-center" action='/auth/login' method="post")
+                form(class="flex flex-col items-center" action='/auth/register' method="post")
                     h1.mb-8.text-2xl Truck-managament | #{title}
                     img.w-32.flex-center(src='/images/logo.png' alt='')
                     
                     input(type="hidden" name="_csrf" value=csrfToken)
+
+                    input.block.border.border-grey-light.w-full.p-3.rounded.mb-4(type='text' name='name' placeholder='Name')
                     
                     input.block.border.border-grey-light.w-full.p-3.rounded.mb-4(type='email' name='email' placeholder='Email')
                     
                     input.block.border.border-grey-light.w-full.p-3.rounded.mb-4(type='password' name='password' placeholder='Password')
+                    
+                    input.block.border.border-grey-light.w-full.p-3.rounded.mb-4(type='password' name='repeat_password' placeholder='Confirm Password')
 
                     if errors
-                    each error in errors 
-                        div.text-red=error.msg
-                    
-                    button.w-full.text-center.py-3.rounded.bg-black.text-white.my-1(type='submit' class='hover:bg-green-dark focus:outline-none') Log in
+                        each error in errors 
+                            div.text-red=error.msg
+
+                    button.w-full.text-center.py-3.rounded.bg-black.text-white.my-1(type='submit' class='hover:bg-green-dark focus:outline-none') Create Account
                     
                     div.text-center.text-sm.text-grey-dark.mt-4
                         | By signing up, you agree to the 
@@ -30,7 +34,7 @@ block content
                         a.no-underline.border-b.border-grey-dark.text-grey-dark(href='#')
                             | Privacy Policy
                 div.text-grey-dark.mt-6
-                    | You do not have an account??
-                    a.border-b.border-blue.text-blue(href='/auth/register')
-                        | Sign up
+                    | Already have an account?? 
+                    a.border-b.border-blue.text-blue(href='/auth/login')
+                        | Log in
                     | .

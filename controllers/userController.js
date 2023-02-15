@@ -58,6 +58,13 @@ const logout = (req, res) => {
     res.clearCookie('_token').status(200).redirect('/auth/login');
 }
 
+const registerForm = (req, res) => {
+    res.render('auth/register', {
+        title: 'Register',
+        csrfToken: req.csrfToken()
+    });
+} 
+
 // Create user
 const createAccount = async (req, res) => {  
     const data = req.body;
@@ -260,6 +267,7 @@ const changePassword = async (req, res) => {
 export {
     loginForm,
     login,
+    registerForm,
     createAccount,
     confirm,
     logout,

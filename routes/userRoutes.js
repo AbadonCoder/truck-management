@@ -2,6 +2,7 @@ import express from 'express';
 import {
     loginForm,
     login,
+    registerForm,
     createAccount,
     confirm,
     forgotPasswordForm,
@@ -18,6 +19,7 @@ router.get('/login', loginForm);
 router.post('/login', login);
 
 // Create new account
+router.get('/register', registerForm);
 router.post('/register', createAccount);
 router.get('/confirm/:token', confirm);
 
