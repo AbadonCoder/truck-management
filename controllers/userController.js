@@ -21,7 +21,10 @@ const login = async (req, res) => {
         return res.render('auth/login', {
             title: 'Login',
             errors: errors.array(),
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            user: {
+                email
+            }
         });
     }
 
@@ -31,12 +34,15 @@ const login = async (req, res) => {
         return res.render('auth/login', {
             title: 'Login',
             errors: [{msg:'This email doesn\'t exists'}],
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            user: {
+                email
+            }
         });
     }
 
     // Check if the passwords match
-    if(!user.validatePassword(password)) {
+    if(!await user.validatePassword(password)) {
         return res.render('auth/login', {
             title: 'Login',
             errors: [{msg:'Password Incorrect'}],
@@ -78,7 +84,11 @@ const createAccount = async (req, res) => {
         return res.render('auth/register', {
             title: 'Register',
             errors: errors.array(),
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            user: {
+                name,
+                email
+            }
         });
     }
 
@@ -249,6 +259,7 @@ const changePassword = async (req, res) => {
 
     try {
         const user = await User.findOne({token});
+        // Hash the new password
         user.password = password;
         user.token = null;
         await user.save();

@@ -31,8 +31,8 @@ const UserSchema = new Schema ({
 
 UserSchema.pre('save', async function() {
     const user = this;
-    const salt = await brcypt.genSalt(10);
-    user.password = await brcypt.hash(user.password, salt);
+    const salt = await brcypt.genSaltSync(10);
+    user.password = await brcypt.hashSync(user.password, salt);
 });
 
 const User = model('user', UserSchema);
