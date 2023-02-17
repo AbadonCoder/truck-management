@@ -40,9 +40,10 @@ const login = async (req, res) => {
             }
         });
     }
-
+    
     // Check if the passwords match
-    if(!await user.validatePassword(password)) {
+    const match = await user.validatePassword(password, user.password);
+    if(!match) {
         return res.render('auth/login', {
             title: 'Login',
             errors: [{msg:'Password Incorrect'}],
@@ -152,9 +153,7 @@ const confirm = async (req, res) => {
 
     try {
         // Confirm account
-        user.token = null;
-        user.status = true;
-        await user.save();
+        await user.updateOne({token: null, status: true});
     
         return res.render('auth/confirm-account', {
             title: 'Account Confirmed',
