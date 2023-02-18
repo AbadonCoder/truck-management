@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node ./index.js",
     "server": "nodemon ./index.js",
-    "css": "postcss public/css/tailwindcss.css -o public/css/app.css -w"
+    "css": "postcss public/css/tailwindcss.css -o public/css/app.css -w",
+    "js": "webpack --watch"
   },
   "keywords": [
     "node",
@@ -33,6 +34,7 @@
     "nodemon": "^2.0.20",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "webpack-cli": "^5.0.1"
   }
 }
