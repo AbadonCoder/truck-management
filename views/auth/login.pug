@@ -17,8 +17,8 @@ block content
                     input.block.border.border-grey-light.w-full.p-3.rounded.mb-4(type='password' name='password' placeholder='Password')
 
                     if errors
-                    each error in errors 
-                        div.text-red=error.msg
+                        each error in errors 
+                            div.text-red=error.msg
                     
                     button.w-full.text-center.py-3.rounded.bg-black.text-white.my-1(type='submit' class='hover:bg-green-dark focus:outline-none') Log in
                     

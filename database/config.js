@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 // Method that establish a connection with MongoDB
 const dbConnection = async() => {
 
