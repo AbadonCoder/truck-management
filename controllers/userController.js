@@ -52,7 +52,7 @@ const login = async (req, res) => {
     }
 
     // Authenticate user
-    const token = generateJWT({id: user.id, name: user.name, email});
+    const token = generateJWT({id: user.id, name: user.name, email, img: user.img});
     
     return res.cookie('_token', token, {
         httpOnly: true

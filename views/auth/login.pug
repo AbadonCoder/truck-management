@@ -18,13 +18,13 @@ block content
 
                 div 
                     label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="email") Email
-                    input.block.border.border-grey-light.w-full.p-3.rounded(type='email' name='email' placeholder='Email' value=user?user.email:"")
+                    input.block.border.border-grey-light.w-full.py-3.px-5.rounded(type='email' name='email' placeholder='Email' value=user?user.email:"")
                 
                 div 
                     label.block.text-sm.uppercase.text-gray-500.mb-2.font-bold(for="password") Password
-                    input.block.border.border-grey-light.w-full.p-3.rounded(type='password' name='password' placeholder='Password')
+                    input.block.border.border-grey-light.w-full.py-3.px-5.rounded(type='password' name='password' placeholder='Password')
 
-                input.uppercase.bg-black.cursor-pointer.rounded.py-2.px-3.text-white.font-bold.w-full(type="submit", value="Log In")
+                input.uppercase.bg-slate-900.cursor-pointer.rounded.py-2.px-3.text-white.font-bold.w-full(type="submit", value="Log In")
                 
                 div.flex.items-center.justify-between
                     a.text-gray-700(href="/auth/register") Sign up

@@ -1,5 +1,6 @@
 import { check, validationResult } from 'express-validator';
 
+// Validate data for a new account
 const validateRegister = async (req) => {
 
     await check('name').trim().notEmpty().escape().withMessage('Name is required').run(req);
@@ -35,9 +36,18 @@ const validatePassword = async (req) => {
     return validationResult(req);
 }
 
+// Validate for changes from profile
+const validateProfile = async (req) => {
+
+    await check('name').trim().notEmpty().escape().withMessage('Name is required').run(req);
+
+    return validationResult(req);
+}
+
 export {
     validateRegister,
     validateLogin,
     validateEmail,
     validatePassword,
+    validateProfile
 }
