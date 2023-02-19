@@ -1,5 +1,5 @@
 import { Schema, model } from'mongoose';
-import brcypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 const UserSchema = new Schema ({
     name: {
@@ -31,14 +31,15 @@ const UserSchema = new Schema ({
 
 UserSchema.pre('save', async function() {
     const user = this;
-    const salt = await brcypt.genSalt(10);
-    user.password = await brcypt.hash(user.password, salt);
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
 });
 
 const User = model('user', UserSchema);
 
-User.prototype.validatePassword = async function(password) {
-    return await brcypt.compareSync(password, this.password);
+User.prototype.validatePassword = async function(password, hash) {
+    const match = await bcrypt.compare(password, hash);
+    return match;
 }
 
 export default User;

@@ -6,8 +6,18 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", href="/css/app.css")
         title TMC | #{title}
-    body
+    body.min-h-screen
 
-        block content
+        if session 
+            include header
+        
+        div(class="flex relative")
+            if session 
+                include aside 
+
+            main(class="flex-1")
+                block content
+
+        script(src="/js/app.js" type="module") 
 
     
