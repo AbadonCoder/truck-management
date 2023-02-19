@@ -21,6 +21,11 @@ const UserSchema = new Schema ({
         required: true,
         allowBlank: false
     },
+    img: {
+        type: String,
+        allowBlank: true,
+        default: null
+    },
     token: String,
     status: {
         type: Boolean,

@@ -1,4 +1,4 @@
-aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen absolute md:static right-full transition-all ease-out md:translate-x-0" id="menu")
+aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen absolute md:static -left-full md:translate-x-0 transition-transform translate-x-full" id="menu")
         //- Main menu
         ul.space-y-4
             
@@ -14,10 +14,10 @@ aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen
                 ul.mt-2.ml-8.space-y-3 
                     //- Sub elements
                     li 
-                        a.bg-blue-700.rounded-full.py-1.px-3(href="#") Manage outputs 
+                        a(href="/manage/manage-outputs" class=title.toLowerCase() == 'outputs' ? 'active' : '') Manage outputs 
 
                     li
-                        a.py-1.px-3(href="#") Add output
+                        a(href="#") Add output
 
             li.text-white
                 div.flex.items-center.gap-2 
@@ -30,17 +30,17 @@ aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen
                 ul.mt-2.ml-8.space-y-3 
                     //- Sub elements
                     li 
-                        a.py-1.px-3(href="#") Manage Trucks
+                        a(href="#" class=title.toLowerCase() == 'trucks' ? 'active' : '') Manage Trucks
 
                     li
-                        a.py-1.px-3(href="#") Add trucks
+                        a(href="#" class=title.toLowerCase() == 'add truck' ? 'active' : '') Add trucks
 
             li.text-white 
                 div.flex.items-center.gap-2
                     svg.w-6.h-6(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor')
                         path(stroke-linecap='round' stroke-linejoin='round' d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z')
                     
-                    a.font-bold(href="#") Profile
+                    a.link-btn.font-bold(href="/manage/profile" class=title.toLowerCase() == 'profile' ? 'active' : '') Profile
 
             li.text-white 
                 div.flex.items-center.gap-2
@@ -52,8 +52,8 @@ aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen
         
         div.flex.items-center.gap-2.mt-10
             div.w-14.h-14.rounded-full.overflow-hidden 
-                img(src="/images/user-img.webp", alt="user image")
+                img(src=user.img == null ? "/images/user.png" : `/uploads/${user.img}`, alt="user image")
 
             div.flex.flex-col
-                p.text-white.font-bold #{session.name}
-                p.text-white.text-xs #{session.email}
+                p.text-white.font-bold #{user.name}
+                p.text-white.text-xs #{user.email}

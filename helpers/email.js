@@ -1,9 +1,12 @@
 import Mailjet from 'node-mailjet';
 
+// Register email
 const registerEmail = (data) => {
+    // Connect with mailjet by api keys
     const mailjet = Mailjet.apiConnect(process.env.MAIL_KEY, process.env.MAIL_SKEY);
     const {name, email, token} = data;
 
+    // Email config
     const request = mailjet
         .post('send', {version: 'v3.1'})
         .request({
@@ -29,15 +32,19 @@ const registerEmail = (data) => {
             ]
         });
 
+        // Send email validation
         request
             .then(response => console.log(response.body))
             .catch(err => console.log(err.statusCode));
 }
 
+// Change password email
 const resetPasswordEmail = (data) => {
+    // Connect with mailjet by api keys
     const mailjet = Mailjet.apiConnect(process.env.MAIL_KEY, process.env.MAIL_SKEY);
     const {name, email, token} = data;
 
+    // Email config
     const request = mailjet
         .post('send', {version: 'v3.1'})
         .request({
@@ -63,6 +70,7 @@ const resetPasswordEmail = (data) => {
             ]
         });
 
+        // Send email validation
         request
             .then(response => console.log(response.body))
             .catch(err => console.log(err.statusCode));
