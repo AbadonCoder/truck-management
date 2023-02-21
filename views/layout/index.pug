@@ -7,13 +7,13 @@ html(lang="en")
         block styles 
         link(rel="stylesheet", href="/css/app.css")
         title TMC | #{title}
-    body.min-h-screen
+    body(class="min-h-screen")
 
-        if user 
+        if session 
             include header
         
         div(class="flex relative")
-            if user 
+            if session 
                 include aside 
 
             main(class="flex-1")

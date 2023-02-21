@@ -38,7 +38,7 @@ app.use('/auth', userRoutes);
 app.use('/manage', manageRoutes);
 
 // server port
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 
 // Listen port
 app.listen(port, () => {
