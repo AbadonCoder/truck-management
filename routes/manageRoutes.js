@@ -1,6 +1,10 @@
 import express from 'express';
 import { 
     outputs, 
+    outputsForm,
+    trucks,
+    trucksForm,
+    addTruck,
     profile, 
     imgProfile, 
     updateProfile} from '../controllers/manageController.js';
@@ -11,6 +15,15 @@ const router = express.Router();
 
 // Get outputs page
 router.get('/manage-outputs', routeProtect, outputs);
+
+// Outputs
+router.get('/add-output', routeProtect, outputsForm);
+
+// Trucks
+router.get('/manage-trucks', trucks);
+
+router.get('/add-truck', routeProtect, trucksForm);
+router.post('/add-truck', routeProtect, addTruck);
 
 // Get user profile
 router.get('/profile', routeProtect, profile);

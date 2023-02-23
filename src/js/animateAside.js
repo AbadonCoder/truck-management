@@ -16,6 +16,5 @@ function translateAside(e) {
 }
 
 function asideLinksColor(link) {
-    console.log(link);
     link.classList.add('bg-blue-700', 'rounded-full', 'py-1', 'px-3');
 }

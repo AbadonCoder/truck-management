@@ -1,4 +1,4 @@
-aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen absolute md:static -left-full md:translate-x-0 transition-transform translate-x-full" id="menu")
+aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 min-h-screen absolute md:static -left-full md:translate-x-0 transition-transform translate-x-full" id="menu")
         //- Main menu
         ul(class="space-y-4")
             
@@ -17,7 +17,7 @@ aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen
                         a(href="/manage/manage-outputs" class=`${title.toLowerCase() == 'outputs' ? 'active' : ''}`) Manage outputs 
 
                     li
-                        a(href="#" class=`${title.toLowerCase() == 'add output' ? 'active' : ''}`) Add output
+                        a(href="/manage/add-output" class=`${title.toLowerCase() == 'add output' ? 'active' : ''}`) Add output
 
             li(class="text-white")
                 div(class="flex items-center gap-2") 
@@ -30,10 +30,10 @@ aside(class="flex flex-col flex-initial p-8 bg-slate-900 w-full md:w-80 h-screen
                 ul(class="mt-2 ml-8 space-y-3")
                     //- Sub elements
                     li 
-                        a(href="#" class=`${title.toLowerCase() == 'trucks' ? 'active' : ''}`) Manage Trucks
+                        a(href="/manage/manage-trucks" class=`${title.toLowerCase() == 'trucks' ? 'active' : ''}`) Manage Trucks
 
                     li
-                        a(href="#" class=`${title.toLowerCase() == 'add truck' ? 'active' : ''}`) Add trucks
+                        a(href="/manage/add-truck" class=`${title.toLowerCase() == 'add truck' ? 'active' : ''}`) Add trucks
 
             li(class="text-white") 
                 div(class="flex items-center gap-2")

@@ -1,0 +1,56 @@
+extends ../layout/index 
+block content 
+
+    
+    h2(class="text-center py-5 font-extrabold text-2xl") Manage Outputs
+
+    //- Desktopy
+    table(class="w-10/12 mx-auto rounded-lg shadow hidden xl:table") 
+        thead(class="bg-slate-900 border-b-2 border-gray-200")
+            tr 
+                th(class="p-3 text-sm font-semibold text-white") Mark
+                th(class="p-3 text-sm font-semibold text-white") Model
+                th(class="p-3 text-sm font-semibold text-white") Year
+                th(class="p-3 text-sm font-semibold text-white") Plate
+                th(class="p-3 text-sm font-semibold text-white") Options
+        tbody(class="divide-y divide-gray-100") 
+            tr(class="bg-gray-50 text-center") 
+                td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap") Nissan 
+                td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap") Sentra
+                td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap") DNAGIJ450 
+                td(class="w-24 p-3 text-sm text-gray-700 whitespace-nowrap") 2022
+                td(class="flex gap-2 justify-center px-2")
+                    a(href="#" class="w-24 text-white font-bold uppercase bg-green-600 py-1 px-2 rounded-md") Update 
+                    a(href="#" class="w-24 text-white font-bold uppercase bg-red-700 py-1 px-2 rounded-md") Delete
+
+
+        //- Movile device
+        ul(class="xl:hidden flex flex-col items-center")
+            li(class="border rounded-lg w-72 sm:w-96 py-8 px-5 space-y-3")
+
+                div(class="flex justify-between items-center flex-wrap")
+                    h3(class="font-extrabold text-blue-600") ID
+                    p(class="text-sm text-gray-500") 63f15c4aaa450951ebf2d23c 
+
+                div(class="flex justify-between items-center flex-wrap")
+                    h3(class="font-extrabold text-blue-600") Vehicle 
+                    p(class="text-sm text-gray-500") Nissan
+
+                div(class="flex justify-between items-center flex-wrap")
+                    h3(class="font-extrabold text-blue-600") Plate 
+                    p(class="text-sm text-gray-500") AB4512 
+
+                div(class="flex justify-between items-center flex-wrap")
+                    h3(class="font-extrabold text-blue-600") Petition 
+                    p(class="text-sm text-gray-500") 19/02/2023 13:10
+
+                div(class="flex justify-between items-center flex-wrap")
+                    h3(class="font-extrabold text-blue-600") Output 
+                    p(class="text-sm text-gray-500") 19/02/2023 14:30
+
+                div(class="flex justify-between items-center flex-wrap")
+                    h3(class="font-extrabold text-blue-600") Status 
+                    p(class="text-sm bg-red-600 text-white px-3 py-1 rounded-full") Finish
+
+block scripts
+    script(src="/js/aside.js") 

@@ -16,7 +16,7 @@
   \********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\nconst btnMenu = document.querySelector('#btnMenu');\nconst menu = document.querySelector('#menu');\nconst asideLink = document.querySelector('.active');\nmenu.classList.remove('translate-x-full');\n\ndocument.addEventListener('DOMContentLoaded', () => {\n    btnMenu.addEventListener('click', translateAside);\n    \n    // Change aside links color\n    asideLinksColor(asideLink);\n});\n\nfunction translateAside(e) {\n    e.preventDefault();\n    menu.classList.toggle('translate-x-full');\n}\n\nfunction asideLinksColor(link) {\n    console.log(link);\n    link.classList.add('bg-blue-700', 'rounded-full', 'py-1', 'px-3');\n}\n\n//# sourceURL=webpack://truck-managment/./src/js/animateAside.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nconst btnMenu = document.querySelector('#btnMenu');\nconst menu = document.querySelector('#menu');\nconst asideLink = document.querySelector('.active');\nmenu.classList.remove('translate-x-full');\n\ndocument.addEventListener('DOMContentLoaded', () => {\n    btnMenu.addEventListener('click', translateAside);\n    \n    // Change aside links color\n    asideLinksColor(asideLink);\n});\n\nfunction translateAside(e) {\n    e.preventDefault();\n    menu.classList.toggle('translate-x-full');\n}\n\nfunction asideLinksColor(link) {\n    link.classList.add('bg-blue-700', 'rounded-full', 'py-1', 'px-3');\n}\n\n//# sourceURL=webpack://truck-managment/./src/js/animateAside.js?");
 
 /***/ })
 
