@@ -39,14 +39,22 @@ const trucksForm = (req, res) => {
 }
 
 // Manage Trucks
-const trucks = (req, res) => {
+const trucks = async (req, res) => {
     const {_token} = req.cookies;
 
-    res.render('manage/manage-trucks', {
-        title: 'Trucks',
-        csrfToken: req.csrfToken(),
-        session: jwt.verify(_token, process.env.JWT_SECRET)
-    });
+    try {
+        const trucks = await Truck.find();
+
+        res.render('manage/manage-trucks', {
+            title: 'Trucks',
+            csrfToken: req.csrfToken(),
+            session: jwt.verify(_token, process.env.JWT_SECRET),
+            trucks
+        });
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 // Save a new truck
@@ -83,6 +91,20 @@ const addTruck = async (req, res) => {
     } catch (error) {
         console.error(error);
     }
+}
+
+// Delete Truck
+const deleteTruck = async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        await Truck.findByIdAndRemove(id);
+        res.status(200).json({msg: 'Your truck has been deleted'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: 'It couldn\'t delete the truck'});
+    }
+
 }
 
 // Load profile page
@@ -161,6 +183,7 @@ export {
     trucksForm,
     trucks,
     addTruck,
+    deleteTruck,
     profile,
     imgProfile,
     updateProfile
