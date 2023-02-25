@@ -5,7 +5,8 @@ export default {
     entry: {
         aside: './src/js/animateAside.js',
         addImage: './src/js/addImage.js',
-        sweetalert: './src/js/sweetalert.js'
+        deleteTruck: './src/js/delete-truck.js',
+        updateTruck: './src/js/update-truck.js'
     },
     output: {
         filename: '[name].js',

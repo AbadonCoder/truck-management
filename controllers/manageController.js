@@ -107,6 +107,39 @@ const deleteTruck = async (req, res) => {
 
 }
 
+// Form update truck
+const updateTruckForm = async (req, res) => {
+    
+    const {id} = req.params;
+    
+    try {
+        const truck = await Truck.findById(id, '-__v -_id');
+        res.status(200).json(truck);
+    } catch (error) {
+        res.status(400).json({msg: 'This truck doesn\'t exists'});
+    }
+}
+
+// Form update truck
+const updateTruck = async (req, res) => {
+    
+    try {    
+        const {id} = req.params;
+
+        let errors = await validateRegister(req);
+
+        if(!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+
+        await Truck.findByIdAndUpdate(id, req.body);
+        res.status(200).json({msg: 'Your truck has been upgraded.'});
+
+    } catch (errors) {
+        res.status(400).json(errors);
+    }
+}
+
 // Load profile page
 const profile = async (req, res) => {
     const {_token} = req.cookies;
@@ -184,6 +217,8 @@ export {
     trucks,
     addTruck,
     deleteTruck,
+    updateTruckForm,
+    updateTruck,
     profile,
     imgProfile,
     updateProfile

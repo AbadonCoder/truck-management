@@ -6,6 +6,8 @@ import {
     trucksForm,
     addTruck,
     deleteTruck,
+    updateTruckForm,
+    updateTruck,
     profile, 
     imgProfile, 
     updateProfile} from '../controllers/manageController.js';
@@ -29,6 +31,10 @@ router.post('/add-truck', routeProtect, addTruck);
 
 // Manipulate trucks
 router.get('/delete-truck/:id', routeProtect, deleteTruck);
+
+// Update trucks
+router.get('/update-truck/:id', routeProtect, updateTruckForm);
+router.post('/update-truck/:id', routeProtect, updateTruck);
 
 // Get user profile
 router.get('/profile', routeProtect, profile);

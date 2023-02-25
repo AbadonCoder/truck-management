@@ -13,6 +13,7 @@ dotenv.config();
 const app = express();
 
 // Enable form reading
+app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Enable cookies

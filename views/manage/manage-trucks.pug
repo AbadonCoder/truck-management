@@ -1,7 +1,8 @@
 extends ../layout/index 
+block styles
+    meta(name="csrf-token" content=csrfToken)
 block content 
 
-    
     h2(class="text-center py-5 font-extrabold text-2xl") Manage Trucks
     if trucks.length > 0
         //- Desktopy
@@ -23,7 +24,7 @@ block content
                             td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap")=truck.year
                             td(class="w-24 p-3 text-sm text-gray-700 uppercase whitespace-nowrap")=truck.plate
                             td(class="flex gap-2 items-center justify-center px-2")
-                                a(href="#" class="w-24 text-sm text-green-600 uppercase border border-green-600 py-1 px-2 rounded-md") Update 
+                                a(href="#" id="btnUpdate" data-id=`${truck.id}` class="w-24 text-sm text-green-600 uppercase border border-green-600 py-1 px-2 rounded-md") Update 
                                 a(href="#" id="btnDelete" data-id=`${truck.id}` class="w-24 text-sm text-red-600 uppercase border border-red-600 py-1 px-2 rounded-md") Delete
 
 
@@ -52,7 +53,7 @@ block content
                                 h3(class="font-extrabold text-blue-600") Options 
                                 
                                 div(class="w-full flex justify-between items-center p-3") 
-                                    a(href="#" class="text-center w-24 text-sm text-green-600 uppercase border border-green-600 py-1 px-2 rounded-md") Update 
+                                    a(href="#" id="btnUpdate" data-id=`${truck.id}` class="text-center w-24 text-sm text-green-600 uppercase border border-green-600 py-1 px-2 rounded-md") Update 
                                     a(href="#" id="btnDelete" data-id=`${truck.id}` class="text-center w-24 text-sm text-red-600 uppercase border border-red-600 py-1 px-2 rounded-md") Delete
     else 
         p(class="text-center") No trucks yet
@@ -60,4 +61,5 @@ block content
 
 block scripts
     script(src="/js/aside.js") 
-    script(src="/js/sweetalert.js") 
+    script(src="/js/deleteTruck.js") 
+    script(src="/js/updateTruck.js") 
