@@ -1,7 +1,7 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, isValidObjectId} from 'mongoose';
 
 const TruckSchema = new Schema({
-    mark: {
+    brand: {
         type: String,
         required: true
     },
@@ -18,6 +18,10 @@ const TruckSchema = new Schema({
         max: 9,
         required: true,
         unique: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
 });
 

@@ -19,20 +19,20 @@ async function updateTruck(e) {
         try {
             truck = await fetch(url);
             truck = await truck.json();
-            const {mark, model, year, plate} = truck;
+            const {brand, model, year, plate} = truck;
 
             // Modal form
             const  {value: formValues } = await Swal.fire({
                 title: 'Update Truck',
                 html:
-                  `<input type="text" id="mark" class="swal2-input" name="mark" placeholder="Mark" value="${mark}">` +
+                  `<input type="text" id="brand" class="swal2-input" name="brand" placeholder="Brand" value="${brand}">` +
                   `<input type="text" id="model" class="swal2-input" name="model" placeholder="Model" value="${model}">`+
                   `<input type="number" id="year" class="swal2-input" name="year" placeholder="Year" value="${year}">`+
                   `<input type="text" id="plate" class="swal2-input" name="plate" placeholder="Plate" value="${plate}">`,
                 focusConfirm: false,
                 preConfirm: () => {
                     return [
-                      document.querySelector('#mark').value,
+                      document.querySelector('#brand').value,
                       document.querySelector('#model').value,
                       document.querySelector('#year').value,
                       document.querySelector('#plate').value
@@ -47,7 +47,7 @@ async function updateTruck(e) {
 
             // Structure data
             const newData = {
-                mark: formValues[0],
+                brand: formValues[0],
                 model: formValues[1],
                 year: formValues[2],
                 plate: formValues[3]

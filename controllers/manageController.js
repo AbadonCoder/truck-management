@@ -41,14 +41,15 @@ const trucksForm = (req, res) => {
 // Manage Trucks
 const trucks = async (req, res) => {
     const {_token} = req.cookies;
+    const session = jwt.verify(_token, process.env.JWT_SECRET);
 
     try {
-        const trucks = await Truck.find();
+        const trucks = await Truck.find({user_id: session.id});
 
         res.render('manage/manage-trucks', {
             title: 'Trucks',
             csrfToken: req.csrfToken(),
-            session: jwt.verify(_token, process.env.JWT_SECRET),
+            session,
             trucks
         });
     } catch (error) {
@@ -61,6 +62,7 @@ const trucks = async (req, res) => {
 const addTruck = async (req, res) => {
     const {_token} = req.cookies;
     const {plate} = req.body;
+    const session = jwt.verify(_token, process.env.JWT_SECRET)
 
     let errors = await validateRegister(req);
 
@@ -69,7 +71,7 @@ const addTruck = async (req, res) => {
             title: 'Add Truck',
             csrfToken: req.csrfToken(),
             errors: errors.array(),
-            session: jwt.verify(_token, process.env.JWT_SECRET)
+            session
         });
     }
 
@@ -86,6 +88,10 @@ const addTruck = async (req, res) => {
 
     try {
         const truck = new Truck(req.body);
+
+        // Relate with the current user
+        truck.user_id = session.id;
+
         await truck.save();
         res.redirect('/manage/manage-trucks');
     } catch (error) {
@@ -98,8 +104,9 @@ const deleteTruck = async (req, res) => {
     const {id} = req.params;
 
     try {
+        const {model} = await Truck.findById(id);
         await Truck.findByIdAndRemove(id);
-        res.status(200).json({msg: 'Your truck has been deleted'});
+        res.status(200).json({msg: `Your ${model} has been deleted`});
     } catch (error) {
         console.log(error);
         res.status(500).json({msg: 'It couldn\'t delete the truck'});

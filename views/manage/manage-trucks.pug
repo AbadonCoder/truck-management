@@ -10,7 +10,7 @@ block content
             table(class="w-10/12 mx-auto rounded-lg shadow hidden xl:table") 
                 thead(class="bg-slate-900 border-b-2 border-gray-200")
                     tr 
-                        th(class="p-3 text-sm font-semibold text-white") Mark
+                        th(class="p-3 text-sm font-semibold text-white") Brand
                         th(class="p-3 text-sm font-semibold text-white") Model
                         th(class="p-3 text-sm font-semibold text-white") Year
                         th(class="p-3 text-sm font-semibold text-white") Plate
@@ -19,7 +19,7 @@ block content
                     
                     each truck in trucks 
                         tr(class="bg-gray-50 text-center") 
-                            td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap")=truck.mark 
+                            td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap")=truck.brand 
                             td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap")=truck.model
                             td(class="w-40 p-3 text-sm text-gray-700 whitespace-nowrap")=truck.year
                             td(class="w-24 p-3 text-sm text-gray-700 uppercase whitespace-nowrap")=truck.plate
@@ -34,8 +34,8 @@ block content
                         li(class="border rounded-lg w-72 sm:w-96 py-8 px-5 space-y-3 mb-5")
 
                             div(class="flex justify-between items-center flex-wrap")
-                                h3(class="font-extrabold text-blue-600") Mark
-                                p(class="text-sm text-gray-500")=truck.mark 
+                                h3(class="font-extrabold text-blue-600") Brand
+                                p(class="text-sm text-gray-500")=truck.brand 
 
                             div(class="flex justify-between items-center flex-wrap")
                                 h3(class="font-extrabold text-blue-600") Model 
