@@ -19,6 +19,11 @@ const TruckSchema = new Schema({
         required: true,
         unique: true
     },
+    available: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     user_id: {
         type: String,
         required: true

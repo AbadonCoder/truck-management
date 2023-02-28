@@ -3,10 +3,12 @@ import { check, validationResult } from 'express-validator';
 // Validate data for a new account
 const validateRegister = async (req) => {
 
-    await check('name').trim().notEmpty().escape().withMessage('Name is required').run(req);
-    await check('email').trim().isEmail().normalizeEmail().withMessage('Invalid email').run(req);
-    await check('password').isLength({ min: 8 }).withMessage('Password needs a minimum of 8 characters').run(req);
-    await check('repeat_password').equals(req.body.password).withMessage('Password doesn\'t match ').run(req);
+    await Promise.all([
+        check('name').trim().notEmpty().escape().withMessage('Name is required').run(req),
+        check('email').trim().isEmail().normalizeEmail().withMessage('Invalid email').run(req),
+        check('password').isLength({ min: 8 }).withMessage('Password needs a minimum of 8 characters').run(req),
+        check('repeat_password').equals(req.body.password).withMessage('Password doesn\'t match ').run(req)
+    ]);
 
     return validationResult(req);
 }
@@ -15,8 +17,10 @@ const validateRegister = async (req) => {
 // Valiate if the login data is correct
 const validateLogin = async (req) => {
 
-    await check('email').isEmail().withMessage('Email is required').run(req);
-    await check('password').notEmpty().withMessage('Password is required').run(req);
+    await Promise.all([
+        check('email').isEmail().withMessage('Email is required').run(req),
+        check('password').notEmpty().withMessage('Password is required').run(req)
+    ]);
 
     return validationResult(req);
 }
@@ -31,8 +35,11 @@ const validateEmail = async (req) => {
 // Validate both passwords
 const validatePassword = async (req) => {
     
-    await check('password').isLength({ min: 8 }).withMessage('Password needs a minimum of 8 characters').run(req);
-    await check('repeat_password').equals(req.body.password).withMessage('Password doesn\'t match ').run(req);
+    await Promise.all([
+        check('password').isLength({ min: 8 }).withMessage('Password needs a minimum of 8 characters').run(req),
+        check('repeat_password').equals(req.body.password).withMessage('Password doesn\'t match ').run(req)
+    ]);
+
     return validationResult(req);
 }
 

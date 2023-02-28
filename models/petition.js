@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import {Schema, model} from 'mongoose';
 
-const PetitionSchema = mongoose.Schema({
+const PetitionSchema = Schema({
     vehicle: {
         type: String,
         required: true
@@ -20,9 +20,13 @@ const PetitionSchema = mongoose.Schema({
     status: {
         type: String,
         required: true,
-        default: 'in process'
+        default: 'pending'
+    },
+    user_id: {
+        type: String,
+        required: true
     }
 });
 
-const Petition = mongoose.model(PetitionSchema);
+const Petition = model('petition', PetitionSchema);
 export default Petition;

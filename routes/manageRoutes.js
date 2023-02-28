@@ -2,6 +2,7 @@ import express from 'express';
 import { 
     outputs, 
     outputsForm,
+    addOutput,
     trucks,
     trucksForm,
     addTruck,
@@ -21,6 +22,7 @@ router.get('/manage-outputs', routeProtect, outputs);
 
 // Outputs
 router.get('/add-output', routeProtect, outputsForm);
+router.post('/add-output', routeProtect, addOutput);
 
 // Trucks
 router.get('/manage-trucks', routeProtect, trucks);

@@ -1,30 +1,132 @@
+// utilities
 import jwt from 'jsonwebtoken';
 import { generateJWT } from '../helpers/tokens.js';
+
+// models
 import User from '../models/user.js';
 import Truck from '../models/truck.js';
+import Petition from '../models/petition.js';
+
+// validations
 import {validateProfile} from '../validations/userValidations.js';
 import {validateRegister} from '../validations/truckValidations.js';
+import { validateOutput } from '../validations/outputValidations.js';
+import { formatDate } from '../helpers/formatDates.js';
 
 // Load home page
-const outputs = (req, res) => {
+const outputs = async (req, res) => {
     const {_token} = req.cookies;
+    const session = jwt.verify(_token, process.env.JWT_SECRET);
+
+    // Serach all petitions
+    let outputs = await Petition.find({user_id: session.id});
+    outputs = outputs.filter(output => output.status != 'finished');
+
+    const activeOutputs = outputs.map(obj => {
+        const {vehicle, plate, petition, output, arrived, status} = obj;
+                const newData = {
+                    vehicle,
+                    plate,
+                    petition: formatDate(petition),
+                    output: output != null ? formatDate(output) : "Pending",
+                    arrived: arrived != null ? formatDate(arrived): "Pending",
+                    status
+                }
+    
+        return newData;
+    });
 
     res.render('manage/manage-outputs', {
         title: 'Outputs',
         csrfToken: req.csrfToken(),
-        session: jwt.verify(_token, process.env.JWT_SECRET)
+        session,
+        outputs: activeOutputs
     });
 }
 
 // Outputs form
-const outputsForm = (req, res) => {
+const outputsForm = async (req, res) => {
     const {_token} = req.cookies;
+    const session = jwt.verify(_token, process.env.JWT_SECRET);
+
+    const trucks = await Truck.find({user_id: session.id, available: true}, '-user_id');
 
     res.render('manage/add-output', {
         title: 'Add Output',
         csrfToken: req.csrfToken(),
-        session: jwt.verify(_token, process.env.JWT_SECRET)
+        session,
+        trucks
     });
+}
+
+// Add new output
+const addOutput = async (req, res) => {
+    const {_token} = req.cookies;
+    const session = jwt.verify(_token, process.env.JWT_SECRET);
+
+    // Extract id vechicle
+    const {vehicle} = req.body;
+
+    let errors = await validateOutput(req);
+
+    const trucks = await Truck.find({user_id: session.id, available: true}, '-user_id');
+
+    // Vehicle is required
+    if(!errors.isEmpty()) {
+        return res.render('manage/add-output', {
+            title: 'Add Output',
+            csrfToken: req.csrfToken(),
+            errors: errors.array(),
+            session,
+            trucks
+        });
+    }
+
+    const truck = await Truck.findById(vehicle);
+
+    // If the truck doesn't exists
+    if(!truck) {
+        return res.render('manage/add-output', {
+            title: 'Add Output',
+            csrfToken: req.csrfToken(),
+            errors: [{msg: 'Doesn\'t exists this truck'}],
+            session,
+            trucks
+        });
+    }
+
+    const date = new Date();
+
+    // Assign data to the petition
+    const petition = new Petition({
+        vehicle: truck.brand,
+        plate: truck.plate,
+        petition: date,
+        output: null,
+        arrived: null,
+        user_id: session.id
+    });
+
+    try {
+        // Save petition
+        truck.available = false;
+
+        await Promise.all([
+            truck.save(),
+            petition.save()
+        ]);
+        
+        res.redirect('/manage/manage-outputs');
+
+    } catch (error) {
+        return res.render('manage/add-output', {
+            title: 'Add Output',
+            csrfToken: req.csrfToken(),
+            errors: [{msg: error}],
+            session,
+            trucks
+        });
+    }
 }
 
 // Outputs form
@@ -220,6 +322,7 @@ const updateProfile = async (req, res) => {
 export {
     outputs,
     outputsForm,
+    addOutput,
     trucksForm,
     trucks,
     addTruck,
