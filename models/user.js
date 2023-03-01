@@ -27,6 +27,10 @@ const UserSchema = new Schema ({
         default: null
     },
     token: String,
+    key: {
+        type: String,
+        default: null
+    },
     status: {
         type: Boolean,
         required: true,

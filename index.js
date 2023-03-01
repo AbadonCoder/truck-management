@@ -2,6 +2,7 @@ import express from 'express';
 
 import userRoutes from './routes/userRoutes.js';
 import manageRoutes from './routes/manageRoutes.js';
+import manageApiRoutes from './routes/manageApiRoutes.js';
 
 import {dbConnection} from './database/config.js';
 import cookieParser from 'cookie-parser';
@@ -37,6 +38,7 @@ app.set('views', './views');
 // Routing
 app.use('/auth', userRoutes);
 app.use('/manage', manageRoutes);
+app.use('/api', manageApiRoutes);
 
 // server port
 const port = process.env.PORT;
