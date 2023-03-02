@@ -14,6 +14,37 @@ import { validateOutput } from '../validations/outputValidations.js';
 import { formatDate } from '../helpers/formatDates.js';
 
 // Load home page
+const history = async (req, res) => {
+    const {_token} = req.cookies;
+    const session = jwt.verify(_token, process.env.JWT_SECRET);
+
+    // Serach all petitions
+    let outputs = await Petition.find({user_id: session.id});
+    outputs = outputs.filter(output => output.status == 'finished');
+
+    const finishedOutputs = outputs.map(obj => {
+        const {vehicle, plate, petition, output, arrived, status} = obj;
+                const newData = {
+                    vehicle,
+                    plate,
+                    petition: formatDate(petition),
+                    output: formatDate(output),
+                    arrived: formatDate(arrived),
+                    status
+                }
+    
+        return newData;
+    });
+
+    res.render('manage/history', {
+        title: 'History',
+        csrfToken: req.csrfToken(),
+        session,
+        outputs: finishedOutputs
+    });
+}
+
+// Load home page
 const outputs = async (req, res) => {
     const {_token} = req.cookies;
     const session = jwt.verify(_token, process.env.JWT_SECRET);
@@ -320,6 +351,7 @@ const updateProfile = async (req, res) => {
 }
 
 export {
+    history,
     outputs,
     outputsForm,
     addOutput,

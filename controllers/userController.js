@@ -75,7 +75,9 @@ const registerForm = (req, res) => {
 // Create user
 const createAccount = async (req, res) => {  
     const data = req.body;
-    const { name, email, password } = data;
+    let { name, email, password } = data;
+    name = name.trim();
+    email = email.trim();
 
     // Validations
     let errors = await validateRegister(req);

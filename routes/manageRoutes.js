@@ -1,5 +1,6 @@
 import express from 'express';
 import { 
+    history,
     outputs, 
     outputsForm,
     addOutput,
@@ -16,6 +17,8 @@ import routeProtect from '../middlewares/routeProtection.js';
 import upload from '../middlewares/saveImage.js';
 
 const router = express.Router();
+
+router.get('/history', routeProtect, history);
 
 // Get outputs page
 router.get('/manage-outputs', routeProtect, outputs);
