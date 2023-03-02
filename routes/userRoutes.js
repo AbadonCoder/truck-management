@@ -14,6 +14,8 @@ import {
 
 const router = express.Router();
 
+router.get('/', ()=> res.redirect('/auth/login'));
+
 // Log in
 router.get('/login', loginForm);
 router.post('/login', login);
