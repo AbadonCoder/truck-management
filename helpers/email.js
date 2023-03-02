@@ -24,7 +24,7 @@ const registerEmail = (data) => {
                     ],
                     "Variables": {
                         "name": `${name}`,
-                        "url": `${process.env.BACKEND_URL}:${process.env.PORT ?? 8000}/auth/confirm/${token}`
+                        "url": `${process.env.BACKEND_URL}/auth/confirm/${token}`
                     },
                     "TemplateID": 4578601,
                     "TemplateLanguage": true
@@ -62,7 +62,7 @@ const resetPasswordEmail = (data) => {
                     ],
                     "Variables": {
                         "name": `${name}`,
-                        "url": `${process.env.BACKEND_URL}:${process.env.PORT ?? 8000}/auth/forgot-password/${token}`
+                        "url": `${process.env.BACKEND_URL}/auth/forgot-password/${token}`
                     },
                     "TemplateID": 4581243,
                     "TemplateLanguage": true
