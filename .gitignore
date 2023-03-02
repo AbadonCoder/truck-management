@@ -1,3 +1,7 @@
 node_modules/
 .env
-public/uploads/*.*
+public/uploads/*
+postcss.config.cjs
+tailwind.config.cjs
+webpack.config.js
+src/
